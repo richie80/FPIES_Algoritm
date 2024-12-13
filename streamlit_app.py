@@ -60,7 +60,12 @@ if age == "<16 jaar":
         if chronic_symptoms == "Ja":
             st.success("Patiënt voldoet aan criteria voor chronische FPIES.")
         else:
-            st.warning("Overweeg andere oorzaken dan FPIES.")
+            st.info("Zijn er symptomen van groeiachterstand of slechte gewichtstoename bij continue consumptie van verdacht voedsel?")
+            failure_to_thrive = st.radio("Groeiachterstand of slechte gewichtstoename?", ["Ja", "Nee"])
+            if failure_to_thrive == "Ja":
+                st.success("Chronische FPIES mogelijk. Overweeg eliminatiedieet en follow-up.")
+            else:
+                st.warning("Overweeg andere oorzaken dan FPIES.")
 
 elif age == "≥16 jaar":
     st.write("Patiënt valt onder de volwassen categorie.")
