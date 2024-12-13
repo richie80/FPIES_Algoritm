@@ -70,33 +70,37 @@ if age == "<16 jaar":
 elif age == "≥16 jaar":
     st.write("Patiënt valt onder de volwassen categorie.")
 
-    # Vraag 4: Zijn er ≥2 episoden van koliekachtige buikpijn na hetzelfde voedsel?
-    abdominal_pain = st.radio(
-        "Heeft de patiënt ≥2 episoden van koliekachtige buikpijn of braken na eten van hetzelfde voedsel?", ["Ja", "Nee"]
-    )
+    # Vraag 2: Heeft de patiënt acute symptomen?
+    acute_symptoms = st.radio("Heeft de patiënt acute symptomen?", ["Ja", "Nee"])
 
-    if abdominal_pain == "Ja":
-        # Vraag 5: Zijn er aanvullende symptomen?
-        additional_symptoms = [
-            st.checkbox("Significant lethargie"),
-            st.checkbox("Bleekheid"),
-            st.checkbox("Diarree binnen 24 uur"),
-            st.checkbox("Hypotensie of hypothermie"),
-            st.checkbox("Intravenus vocht nodig")
-        ]
-        criteria_count_adult = sum(additional_symptoms)
+    if acute_symptoms == "Ja":
+        # Vraag 3: Zijn er ≥2 episoden van koliekachtige buikpijn na hetzelfde voedsel?
+        abdominal_pain = st.radio(
+            "Heeft de patiënt ≥2 episoden van koliekachtige buikpijn of braken na eten van hetzelfde voedsel?", ["Ja", "Nee"]
+        )
 
-        if criteria_count_adult >= 3:
-            st.success("Patiënt voldoet aan criteria voor acute FPIES bij volwassenen.")
+        if abdominal_pain == "Ja":
+            # Vraag 4: Zijn er aanvullende symptomen?
+            additional_symptoms = [
+                st.checkbox("Significant lethargie"),
+                st.checkbox("Bleekheid"),
+                st.checkbox("Diarree binnen 24 uur"),
+                st.checkbox("Hypotensie of hypothermie"),
+                st.checkbox("Intravenus vocht nodig")
+            ]
+            criteria_count_adult = sum(additional_symptoms)
+
+            if criteria_count_adult >= 3:
+                st.success("Patiënt voldoet aan criteria voor acute FPIES bij volwassenen.")
+            else:
+                st.warning("Mogelijke FPIES-symptomen. Overweeg verdere evaluatie.")
         else:
-            st.warning("Mogelijke FPIES-symptomen. Overweeg verdere evaluatie.")
-    else:
-        st.info("Zijn er andere symptomen zoals significant lethargie, bleekheid, of diarree na voedselinname?")
-        other_symptoms = st.radio("Andere symptomen aanwezig?", ["Ja", "Nee"])
-        if other_symptoms == "Ja":
-            st.success("Overweeg FPIES met aanvullende diagnostiek.")
-        else:
-            st.warning("Geen duidelijke symptomen van FPIES. Overweeg andere oorzaken.")
+            st.info("Zijn er andere symptomen zoals significant lethargie, bleekheid, of diarree na voedselinname?")
+            other_symptoms = st.radio("Andere symptomen aanwezig?", ["Ja", "Nee"])
+            if other_symptoms == "Ja":
+                st.success("Overweeg FPIES met aanvullende diagnostiek.")
+            else:
+                st.warning("Geen duidelijke symptomen van FPIES. Overweeg andere oorzaken.")
 
 # Slot
 st.markdown(
