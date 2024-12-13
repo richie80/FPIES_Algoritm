@@ -12,7 +12,7 @@ st.markdown(
 )
 
 # Vraag 1: Leeftijd van de patiënt
-age = st.selectbox("Wat is de leeftijd van de patiënt?", ["<16 jaar", "\u226516 jaar"])
+age = st.selectbox("Wat is de leeftijd van de patiënt?", ["<16 jaar", "≥16 jaar"])
 
 if age == "<16 jaar":
     st.write("Patiënt valt onder de kindcategorie.")
@@ -21,30 +21,39 @@ if age == "<16 jaar":
     acute_symptoms = st.radio("Heeft de patiënt acute symptomen?", ["Ja", "Nee"])
 
     if acute_symptoms == "Ja":
-        # Vraag 3: Zijn er \u22653 minor criteria aanwezig?
-        minor_criteria = st.checkbox("Repetitief braken na eten van hetzelfde voedsel")
-        minor_criteria2 = st.checkbox("Braken 1-4 uur na eten van ander voedsel")
-        minor_criteria3 = st.checkbox("Significant lethargisch bij verdacht voedsel")
-        minor_criteria4 = st.checkbox("Bleekheid bij verdacht voedsel")
-        minor_criteria5 = st.checkbox("Intravenus vocht nodig bij reactie")
-        
+        # Vraag 3: Zijn er ≥3 minor criteria aanwezig?
+        minor_criteria = [
+            st.checkbox("Repetitief braken na eten van hetzelfde voedsel"),
+            st.checkbox("Braken 1-4 uur na eten van verdacht voedsel"),
+            st.checkbox("Significant lethargie met reactie"),
+            st.checkbox("Bleekheid met reactie"),
+            st.checkbox("Intravenus vocht of ziekenhuisopname vereist")
+        ]
+
         # Tellen van criteria
-        criteria_count = sum([minor_criteria, minor_criteria2, minor_criteria3, minor_criteria4, minor_criteria5])
-        
+        criteria_count = sum(minor_criteria)
+
         if criteria_count >= 3:
             st.success("Patiënt voldoet aan criteria voor acute FPIES. Overweeg een gecontroleerde voedselprovocatie.")
         else:
             st.warning("Patiënt voldoet mogelijk niet aan de criteria. Overweeg andere oorzaken.")
 
     else:
-        st.info("Geen acute symptomen. Overweeg chronische FPIES of andere oorzaken.")
+        st.info("Geen acute symptomen. Overweeg chronische FPIES.")
+        chronic_symptoms = st.radio(
+            "Zijn er terugkerende symptomen zoals waterige diarree of braken met regelmatige consumptie?", ["Ja", "Nee"]
+        )
+        if chronic_symptoms == "Ja":
+            st.success("Patiënt voldoet aan criteria voor chronische FPIES.")
+        else:
+            st.warning("Overweeg andere oorzaken dan FPIES.")
 
-elif age == "\u226516 jaar":
+elif age == "≥16 jaar":
     st.write("Patiënt valt onder de volwassen categorie.")
 
-    # Vraag 4: Zijn er \u22652 episoden van colicky abdominale pijn na hetzelfde voedsel?
+    # Vraag 4: Zijn er ≥2 episoden van koliekachtige buikpijn na hetzelfde voedsel?
     abdominal_pain = st.radio(
-        "Heeft de patiënt \u22652 episoden van koliekachtige buikpijn na eten van hetzelfde voedsel?", ["Ja", "Nee"]
+        "Heeft de patiënt ≥2 episoden van koliekachtige buikpijn of braken na eten van hetzelfde voedsel?", ["Ja", "Nee"]
     )
 
     if abdominal_pain == "Ja":
