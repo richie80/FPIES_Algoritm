@@ -60,12 +60,12 @@ if age == "<16 jaar":
         if chronic_symptoms == "Ja":
             st.success("Patiënt voldoet aan criteria voor chronische FPIES.")
         else:
-            st.info("Zijn er symptomen van groeiachterstand of slechte gewichtstoename bij continue consumptie van verdacht voedsel?")
-            failure_to_thrive = st.radio("Groeiachterstand of slechte gewichtstoename?", ["Ja", "Nee"])
-            if failure_to_thrive == "Ja":
-                st.success("Chronische FPIES mogelijk. Overweeg eliminatiedieet en follow-up.")
+            st.info("Heeft de patiënt symptomen gehad na het herintroduceren van voedsel na een periode van eliminatie?")
+            food_reintroduction = st.radio("Symptomen na voedselherintroductie?", ["Ja", "Nee"])
+            if food_reintroduction == "Ja":
+                st.success("Overweeg acute FPIES na chronische FPIES. Plan een gecontroleerde voedselprovocatie.")
             else:
-                st.warning("Overweeg andere oorzaken dan FPIES.")
+                st.warning("Geen duidelijke aanwijzingen voor FPIES. Overweeg andere oorzaken.")
 
 elif age == "≥16 jaar":
     st.write("Patiënt valt onder de volwassen categorie.")
@@ -76,15 +76,15 @@ elif age == "≥16 jaar":
     )
 
     if abdominal_pain == "Ja":
-        # Minor criteria voor volwassenen
-        minor_criteria_adult = [
+        # Vraag 5: Zijn er aanvullende symptomen?
+        additional_symptoms = [
             st.checkbox("Significant lethargie"),
             st.checkbox("Bleekheid"),
             st.checkbox("Diarree binnen 24 uur"),
             st.checkbox("Hypotensie of hypothermie"),
             st.checkbox("Intravenus vocht nodig")
         ]
-        criteria_count_adult = sum(minor_criteria_adult)
+        criteria_count_adult = sum(additional_symptoms)
 
         if criteria_count_adult >= 3:
             st.success("Patiënt voldoet aan criteria voor acute FPIES bij volwassenen.")
