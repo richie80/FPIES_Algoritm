@@ -57,9 +57,27 @@ elif age == "≥16 jaar":
     )
 
     if abdominal_pain == "Ja":
-        st.success("Patiënt voldoet aan criteria voor volwassen FPIES. Overweeg een gecontroleerde voedselprovocatie.")
+        # Minor criteria voor volwassenen
+        minor_criteria_adult = [
+            st.checkbox("Significant lethargie"),
+            st.checkbox("Bleekheid"),
+            st.checkbox("Diarree binnen 24 uur"),
+            st.checkbox("Hypotensie of hypothermie"),
+            st.checkbox("Intravenus vocht nodig")
+        ]
+        criteria_count_adult = sum(minor_criteria_adult)
+
+        if criteria_count_adult >= 3:
+            st.success("Patiënt voldoet aan criteria voor acute FPIES bij volwassenen.")
+        else:
+            st.warning("Mogelijke FPIES-symptomen. Overweeg verdere evaluatie.")
     else:
-        st.warning("Geen duidelijke symptomen van FPIES. Overweeg andere oorzaken.")
+        st.info("Zijn er andere symptomen zoals significant lethargie, bleekheid, of diarree na voedselinname?")
+        other_symptoms = st.radio("Andere symptomen aanwezig?", ["Ja", "Nee"])
+        if other_symptoms == "Ja":
+            st.success("Overweeg FPIES met aanvullende diagnostiek.")
+        else:
+            st.warning("Geen duidelijke symptomen van FPIES. Overweeg andere oorzaken.")
 
 # Slot
 st.markdown(
