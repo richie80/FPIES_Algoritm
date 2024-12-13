@@ -21,22 +21,36 @@ if age == "<16 jaar":
     acute_symptoms = st.radio("Heeft de patiënt acute symptomen?", ["Ja", "Nee"])
 
     if acute_symptoms == "Ja":
-        # Vraag 3: Zijn er ≥3 minor criteria aanwezig?
-        minor_criteria = [
-            st.checkbox("Repetitief braken na eten van hetzelfde voedsel"),
-            st.checkbox("Braken 1-4 uur na eten van verdacht voedsel"),
-            st.checkbox("Significant lethargie met reactie"),
-            st.checkbox("Bleekheid met reactie"),
-            st.checkbox("Intravenus vocht of ziekenhuisopname vereist")
+        # Vraag 3: Zijn beide major criteria aanwezig?
+        major_criteria = [
+            st.checkbox("Braken 1-4 uur na het eten van verdacht voedsel"),
+            st.checkbox("Afwezigheid van klassieke IgE-gemedieerde allergische huid- of ademhalingssymptomen")
         ]
 
-        # Tellen van criteria
-        criteria_count = sum(minor_criteria)
+        if all(major_criteria):
+            # Vraag 4: Zijn er ≥3 minor criteria aanwezig?
+            minor_criteria = [
+                st.checkbox("Een tweede episode van repetitief braken na hetzelfde voedsel"),
+                st.checkbox("Repetitief braken na eten van een ander voedsel"),
+                st.checkbox("Significant lethargie met reactie"),
+                st.checkbox("Bleekheid met reactie"),
+                st.checkbox("Bezoek aan de spoedeisende hulp met reactie"),
+                st.checkbox("Intravenus vocht nodig met reactie"),
+                st.checkbox("Diarree binnen 24 uur (meestal 5-10 uur)"),
+                st.checkbox("Hypotensie"),
+                st.checkbox("Hypothermie"),
+                st.checkbox("Toename neutrofielen (indien beschikbaar)")
+            ]
 
-        if criteria_count >= 3:
-            st.success("Patiënt voldoet aan criteria voor acute FPIES. Overweeg een gecontroleerde voedselprovocatie.")
+            # Tellen van criteria
+            criteria_count = sum(minor_criteria)
+
+            if criteria_count >= 3:
+                st.success("Patiënt voldoet aan criteria voor acute FPIES. Overweeg een gecontroleerde voedselprovocatie.")
+            else:
+                st.warning("Patiënt voldoet mogelijk niet aan de criteria. Overweeg andere oorzaken.")
         else:
-            st.warning("Patiënt voldoet mogelijk niet aan de criteria. Overweeg andere oorzaken.")
+            st.warning("Beide major criteria moeten aanwezig zijn om verder te gaan.")
 
     else:
         st.info("Geen acute symptomen. Overweeg chronische FPIES.")
